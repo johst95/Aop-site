@@ -698,8 +698,18 @@ function sub(){
   const re=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if(!re.test(fe.value.trim())){fe.style.borderColor='#c0392b';return;}
   const ff=document.getElementById('ff'),fs=document.getElementById('fs');
-  ff.style.transition='opacity .3s';ff.style.opacity='0';
-  setTimeout(()=>{ff.style.display='none';fs.style.display='block';fs.style.opacity='0';fs.style.transition='opacity .3s';requestAnimationFrame(()=>requestAnimationFrame(()=>fs.style.opacity='1'));},300);
+  fetch('https://formspree.io/f/mwvybzea',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify({name:fn.value.trim(),email:fe.value.trim(),business:fb.value.trim(),message:fm.value.trim()})
+  }).then(r=>{
+    if(r.ok){
+      ff.style.transition='opacity .3s';ff.style.opacity='0';
+      setTimeout(()=>{ff.style.display='none';fs.style.display='block';fs.style.opacity='0';fs.style.transition='opacity .3s';requestAnimationFrame(()=>requestAnimationFrame(()=>fs.style.opacity='1'));},300);
+    } else {
+      alert('Something went wrong. Please try again or email us directly.');
+    }
+  }).catch(()=>alert('Something went wrong. Please check your connection and try again.'));
 }
 </script>
 
